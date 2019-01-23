@@ -13,7 +13,11 @@ class KBTest(unittest.TestCase):
         for item in data:
             if isinstance(item, Fact):
                 self.KB.kb_assert(item)
-        
+        file2 = 'statements_kb2.txt'
+        data2 = read.read_tokenize(file2)
+        for item2 in data2:
+            if isinstance(item2, Fact):
+                self.KB.kb_assert(item2)
 
     def test1(self):
         ask1 = read.parse_input("fact: (color bigbox red)")
@@ -53,7 +57,22 @@ class KBTest(unittest.TestCase):
         self.assertEqual(str(answer[3]), "?X : pyramid2, ?Y : green")
         self.assertEqual(str(answer[4]), "?X : pyramid3, ?Y : red")
         self.assertEqual(str(answer[5]), "?X : pyramid4, ?Y : red")
-        
+
+    def test6(self):
+        ask1 = read.parse_input("fact: (isa Sorceress Wizard)")
+        print(' Asking if', ask1)
+        answer = self.KB.kb_ask(ask1)
+        self.assertEqual(answer[0].bindings, [])
+
+    def test6(self):
+        ask1 = read.parse_input("fact: (isa Sorceress Shark)")
+        answer = self.KB.kb_ask(ask1)
+        self.assertFalse(answer)
+
+    def test7(self):
+        ask1 = read.parse_input("fact: (hero notAi)")
+        answer = self.KB.kb_ask(ask1)
+        self.assertFalse(answer)
 
 if __name__ == '__main__':
     unittest.main()
